@@ -29,6 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
     updateSongList(count);
   });
 
-  // Initialisiere mit der Auswahl 1
-  updateSongList(1);
+  // Initialisiere mit der Auswahl 1 (damit auch die Liste schon bei Ladebeginn angezeigt wird)
+  updateSongList(parseInt(songCountSelect.value, 10));  // Wichtige Änderung hier
 });
