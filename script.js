@@ -54,7 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Funktion, wenn das Element über einem anderen schwebt
   function dragOver(event) {
-    event.preventDefault();
+    event.preventDefault(); // Verhindert das Standardverhalten
+    const target = event.target;
+
+    // Überprüfen, ob das Ziel wirklich ein song-item ist, sonst keine Funktionalität
+    if (target.classList.contains('song-item') && target !== draggedItem) {
+      target.style.border = "2px dashed #ccc"; // Optional: visuelles Feedback
+    }
   }
 
   // Funktion, wenn das Element abgesetzt wird
@@ -62,27 +68,33 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     const target = event.target;
 
-    if (target !== draggedItem && target.classList.contains('song-item')) {
+    // Wenn das Ziel der Drag-and-Drop Zone ein Song-Element ist, die Positionen tauschen
+    if (target.classList.contains('song-item') && target !== draggedItem) {
       const draggedIndex = parseInt(draggedItem.getAttribute('data-index'));
       const targetIndex = parseInt(target.getAttribute('data-index'));
 
-      // Die Positionen der beiden Items tauschen
-      if (draggedIndex !== targetIndex) {
-        const draggedInput = draggedItem.querySelector('input');
-        const targetInput = target.querySelector('input');
+      // Tausch der Positionen der Song-Eingabefelder
+      const draggedInput = draggedItem.querySelector('input');
+      const targetInput = target.querySelector('input');
 
-        // Tausch der Inhalte
-        const temp = draggedInput.value;
-        draggedInput.value = targetInput.value;
-        targetInput.value = temp;
-      }
+      const tempValue = draggedInput.value;
+      draggedInput.value = targetInput.value;
+      targetInput.value = tempValue;
+
+      // Tausch der data-index-Werte
+      draggedItem.setAttribute('data-index', targetIndex);
+      target.setAttribute('data-index', draggedIndex);
     }
 
+    target.style.border = ""; // Visuelles Feedback zurücksetzen
     draggedItem.classList.remove('dragging');
   }
 
   // Funktion, wenn das Ziehen endet
   function dragEnd(event) {
+    const draggedItems = document.querySelectorAll('.song-item');
+    draggedItems.forEach(item => item.style.border = ""); // Visuelle Hinweise zurücksetzen
     draggedItem = null;
   }
 });
+
