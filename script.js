@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function() {
   const songCountSelect = document.getElementById("song-count");
   const songListContainer = document.getElementById("song-list");
 
-  // Funktion, um die Songliste zu aktualisieren
+  // Funktion zum Erstellen der Song-Liste
   function updateSongList(count) {
-    // Lösche alle vorhandenen Songeinträge
+    // Lösche alle bestehenden Song-Einträge
     songListContainer.innerHTML = "";
 
     // Erstelle die Liste für die Songs basierend auf der ausgewählten Anzahl
@@ -30,5 +30,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Initialisiere mit der Auswahl 1 (damit auch die Liste schon bei Ladebeginn angezeigt wird)
-  updateSongList(parseInt(songCountSelect.value, 10));  // Wichtige Änderung hier
+  updateSongList(parseInt(songCountSelect.value, 10));
 });
