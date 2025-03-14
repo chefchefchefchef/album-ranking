@@ -15,7 +15,7 @@ document.getElementById('numSongs').addEventListener('input', function() {
       Song ${i}: <input type="text" placeholder="Song name" id="inputSong${i}">
     `;
 
-    // Add drag event listeners to each song item (not input)
+    // Add drag event listeners to each song item
     songItem.addEventListener('dragstart', dragStart);
     songItem.addEventListener('dragover', dragOver);
     songItem.addEventListener('dragenter', dragEnter);
