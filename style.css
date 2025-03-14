@@ -2,7 +2,7 @@
 body {
   background-color: black;
   color: white;
-  font-family: 'Arial', sans-serif;  /* Moderne und klare Schrift */
+  font-family: 'Arial', sans-serif;
   padding: 20px;
   font-size: 18px;  /* Größere Schriftgröße */
   margin: 0;
@@ -18,7 +18,25 @@ h1 {
   text-align: center;
   font-size: 36px;  /* Größere Überschrift */
   font-weight: bold;
-  margin-bottom: 30px;  /* Abstand nach unten */
+  margin-bottom: 10px;
+}
+
+/* Eingabefeld für den Albumnamen */
+label[for="albumName"] {
+  font-size: 22px; /* Etwas größer, aber nicht so fett wie h1 */
+  font-weight: 600; /* Mittlere Dicke */
+  margin-bottom: 10px;
+}
+
+input#albumName {
+  font-size: 18px;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 5px;
+  width: 300px;
+  margin-bottom: 20px;
 }
 
 /* Label für die Anzahl der Songs */
