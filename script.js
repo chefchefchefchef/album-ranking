@@ -1,80 +1,82 @@
-document.getElementById('numSongs').addEventListener('input', function() {
-  const numSongs = parseInt(this.value);
+document.addEventListener('DOMContentLoaded', () => {
+  const numSongsInput = document.getElementById('numSongs');
   const songListContainer = document.getElementById('songListContainer');
-  
-  // Clear previous list
-  songListContainer.innerHTML = '';
+  const albumNameInput = document.getElementById('albumName');
 
-  // Create song input fields based on the selected number
-  for (let i = 1; i <= numSongs; i++) {
-    const songItem = document.createElement('div');
-    songItem.classList.add('song-item');
-    songItem.setAttribute('draggable', 'true');
-    songItem.setAttribute('id', `song${i}`);
-    songItem.innerHTML = `
-      Song ${i}: <input type="text" placeholder="Song name" id="inputSong${i}">
-    `;
+  // Funktion, um die Song-Liste zu generieren
+  function generateSongList() {
+    const numSongs = parseInt(numSongsInput.value);
 
-    // Add drag event listeners to each song item (not input)
-    songItem.addEventListener('dragstart', dragStart);
-    songItem.addEventListener('dragover', dragOver);
-    songItem.addEventListener('dragenter', dragEnter);
-    songItem.addEventListener('dragleave', dragLeave);
-    songItem.addEventListener('drop', drop);
-    songItem.addEventListener('dragend', dragEnd);
+    // Sicherstellen, dass eine gültige Zahl eingegeben wurde
+    if (isNaN(numSongs) || numSongs < 1) {
+      return;
+    }
 
-    songListContainer.appendChild(songItem);
+    songListContainer.innerHTML = ''; // Liste leeren, bevor neue Songs hinzugefügt werden
+
+    // Song-Plätze hinzufügen
+    for (let i = 1; i <= numSongs; i++) {
+      const songItem = document.createElement('div');
+      songItem.classList.add('song-item');
+      songItem.setAttribute('data-index', i);
+
+      const songInput = document.createElement('input');
+      songInput.type = 'text';
+      songInput.placeholder = `Platz ${i}: Songname`;
+
+      songItem.appendChild(songInput);
+      songListContainer.appendChild(songItem);
+
+      // Drag and Drop logik hinzufügen
+      songItem.setAttribute('draggable', true);
+      songItem.addEventListener('dragstart', dragStart);
+      songItem.addEventListener('dragover', dragOver);
+      songItem.addEventListener('drop', drop);
+      songItem.addEventListener('dragend', dragEnd);
+    }
+  }
+
+  // Update der Song-Liste bei Änderung der Song-Anzahl
+  numSongsInput.addEventListener('input', generateSongList);
+
+  // Funktion, wenn das Ziehen startet
+  let draggedItem = null;
+  function dragStart(event) {
+    draggedItem = event.target;
+    event.target.classList.add('dragging');
+  }
+
+  // Funktion, wenn das Element über einem anderen schwebt
+  function dragOver(event) {
+    event.preventDefault();
+  }
+
+  // Funktion, wenn das Element abgesetzt wird
+  function drop(event) {
+    event.preventDefault();
+    const target = event.target;
+
+    if (target !== draggedItem && target.classList.contains('song-item')) {
+      const draggedIndex = parseInt(draggedItem.getAttribute('data-index'));
+      const targetIndex = parseInt(target.getAttribute('data-index'));
+
+      // Die Positionen der beiden Items tauschen
+      if (draggedIndex !== targetIndex) {
+        const draggedInput = draggedItem.querySelector('input');
+        const targetInput = target.querySelector('input');
+
+        // Tausch der Inhalte
+        const temp = draggedInput.value;
+        draggedInput.value = targetInput.value;
+        targetInput.value = temp;
+      }
+    }
+
+    draggedItem.classList.remove('dragging');
+  }
+
+  // Funktion, wenn das Ziehen endet
+  function dragEnd(event) {
+    draggedItem = null;
   }
 });
-
-// Variables to handle the drag and drop functionality
-let draggedItem = null;
-
-function dragStart(event) {
-  draggedItem = event.target;
-  setTimeout(() => {
-    draggedItem.classList.add('dragging');
-  }, 0);
-}
-
-function dragEnd() {
-  draggedItem.classList.remove('dragging');
-  draggedItem = null;
-}
-
-function dragOver(event) {
-  event.preventDefault();
-}
-
-function dragEnter(event) {
-  event.preventDefault();
-  const target = event.target;
-  if (target.classList.contains('song-item') && target !== draggedItem) {
-    target.style.borderTop = '2px solid #ff6347';
-  }
-}
-
-function dragLeave(event) {
-  const target = event.target;
-  if (target.classList.contains('song-item')) {
-    target.style.borderTop = 'none';
-  }
-}
-
-function drop(event) {
-  event.preventDefault();
-  const target = event.target;
-  if (target.classList.contains('song-item') && target !== draggedItem) {
-    // Swap the song items
-    const draggedId = draggedItem.id;
-    const targetId = target.id;
-
-    const draggedInput = document.getElementById(draggedId).querySelector('input').value;
-    const targetInput = document.getElementById(targetId).querySelector('input').value;
-
-    document.getElementById(draggedId).querySelector('input').value = targetInput;
-    document.getElementById(targetId).querySelector('input').value = draggedInput;
-
-    target.style.borderTop = 'none';
-  }
-}
