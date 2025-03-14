@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Funktion zum Erstellen der Song-Liste
   function updateSongList(count) {
+    // Debugging-Ausgabe: Zeige die aktuelle Auswahl im Dropdown an
+    console.log("Aktuelle Songanzahl:", count);
+
     // Lösche alle bestehenden Song-Einträge
     songListContainer.innerHTML = "";
 
@@ -32,3 +35,4 @@ document.addEventListener("DOMContentLoaded", function() {
   // Initialisiere mit der Auswahl 1 (damit auch die Liste schon bei Ladebeginn angezeigt wird)
   updateSongList(parseInt(songCountSelect.value, 10));
 });
+
