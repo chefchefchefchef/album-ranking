@@ -2,65 +2,34 @@ body {
   background-color: black;
   color: white;
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  background-color: #333;
   padding: 20px;
-  text-align: center;
 }
 
 h1 {
-  font-size: 3em;
+  text-align: center;
 }
 
-main {
-  padding: 20px;
-}
-
-.input-container {
-  margin-bottom: 20px;
-}
-
-select {
-  background-color: #555;
-  color: white;
-  font-size: 1.2em;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-}
-
-#song-list {
+#songListContainer {
   margin-top: 20px;
 }
 
 .song-item {
-  background-color: #333;
+  background-color: gray;
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0;
   border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
+  cursor: move;
 }
 
-.song-item input {
-  background-color: #555;
+.song-item.dragging {
+  opacity: 0.5;
+}
+
+input {
+  background-color: #333;
   color: white;
-  border: none;
   padding: 5px;
-  border-radius: 5px;
-  font-size: 1.1em;
-}
-
-footer {
-  text-align: center;
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+  margin: 10px;
+  border: 1px solid #444;
+  border-radius: 3px;
 }

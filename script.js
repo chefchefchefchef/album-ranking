@@ -1,37 +1,80 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const songCountSelect = document.getElementById("song-count");
-  const songListContainer = document.getElementById("song-list");
+document.getElementById('numSongs').addEventListener('input', function() {
+  const numSongs = parseInt(this.value);
+  const songListContainer = document.getElementById('songListContainer');
+  
+  // Clear previous list
+  songListContainer.innerHTML = '';
 
-  // Funktion zum Erstellen der Song-Liste
-  function updateSongList(count) {
-    // Debugging-Ausgabe: Zeige die aktuelle Auswahl im Dropdown an
-    console.log("Aktuelle Songanzahl:", count);
+  // Create song input fields based on the selected number
+  for (let i = 1; i <= numSongs; i++) {
+    const songItem = document.createElement('div');
+    songItem.classList.add('song-item');
+    songItem.setAttribute('draggable', 'true');
+    songItem.setAttribute('id', `song${i}`);
+    songItem.innerHTML = `
+      Song ${i}: <input type="text" placeholder="Song name" id="inputSong${i}">
+    `;
 
-    // Lösche alle bestehenden Song-Einträge
-    songListContainer.innerHTML = "";
+    // Add drag event listeners to each song item (not input)
+    songItem.addEventListener('dragstart', dragStart);
+    songItem.addEventListener('dragover', dragOver);
+    songItem.addEventListener('dragenter', dragEnter);
+    songItem.addEventListener('dragleave', dragLeave);
+    songItem.addEventListener('drop', drop);
+    songItem.addEventListener('dragend', dragEnd);
 
-    // Erstelle die Liste für die Songs basierend auf der ausgewählten Anzahl
-    for (let i = 1; i <= count; i++) {
-      const songItem = document.createElement("div");
-      songItem.classList.add("song-item");
-
-      // Erstelle die Nummer und das Eingabefeld
-      songItem.innerHTML = `
-        <span>${i}.</span>
-        <input type="text" placeholder="Song Name" id="song-${i}" />
-      `;
-
-      // Füge das Songitem zur Liste hinzu
-      songListContainer.appendChild(songItem);
-    }
+    songListContainer.appendChild(songItem);
   }
-
-  // Wenn die Auswahl geändert wird, aktualisiere die Liste
-  songCountSelect.addEventListener("change", function() {
-    const count = parseInt(songCountSelect.value, 10);
-    updateSongList(count);
-  });
-
-  // Initialisiere mit der Auswahl 1 (damit auch die Liste schon bei Ladebeginn angezeigt wird)
-  updateSongList(parseInt(songCountSelect.value, 10));
 });
+
+// Variables to handle the drag and drop functionality
+let draggedItem = null;
+
+function dragStart(event) {
+  draggedItem = event.target;
+  setTimeout(() => {
+    draggedItem.classList.add('dragging');
+  }, 0);
+}
+
+function dragEnd() {
+  draggedItem.classList.remove('dragging');
+  draggedItem = null;
+}
+
+function dragOver(event) {
+  event.preventDefault();
+}
+
+function dragEnter(event) {
+  event.preventDefault();
+  const target = event.target;
+  if (target.classList.contains('song-item') && target !== draggedItem) {
+    target.style.borderTop = '2px solid #ff6347';
+  }
+}
+
+function dragLeave(event) {
+  const target = event.target;
+  if (target.classList.contains('song-item')) {
+    target.style.borderTop = 'none';
+  }
+}
+
+function drop(event) {
+  event.preventDefault();
+  const target = event.target;
+  if (target.classList.contains('song-item') && target !== draggedItem) {
+    // Swap the song items
+    const draggedId = draggedItem.id;
+    const targetId = target.id;
+
+    const draggedInput = document.getElementById(draggedId).querySelector('input').value;
+    const targetInput = document.getElementById(targetId).querySelector('input').value;
+
+    document.getElementById(draggedId).querySelector('input').value = targetInput;
+    document.getElementById(targetId).querySelector('input').value = draggedInput;
+
+    target.style.borderTop = 'none';
+  }
+}
