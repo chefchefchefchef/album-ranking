@@ -20,11 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
       songItem.classList.add('song-item');
       songItem.setAttribute('data-index', i);
 
+      // Label für den Platz
+      const songLabel = document.createElement('label');
+      songLabel.textContent = `Platz ${i}:`;
+      songItem.appendChild(songLabel);
+
+      // Eingabefeld für den Songname
       const songInput = document.createElement('input');
       songInput.type = 'text';
-      songInput.placeholder = `Platz ${i}: Songname`;
-
+      songInput.placeholder = 'Songname';
       songItem.appendChild(songInput);
+
       songListContainer.appendChild(songItem);
 
       // Drag and Drop logik hinzufügen
