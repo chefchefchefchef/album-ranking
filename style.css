@@ -1,35 +1,85 @@
+/* Setze den Hintergrund auf schwarz und die Schrift auf weiß */
 body {
   background-color: black;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;  /* Moderne und klare Schrift */
   padding: 20px;
+  font-size: 18px;  /* Größere Schriftgröße */
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
+/* Title */
 h1 {
   text-align: center;
+  font-size: 36px;  /* Größere Überschrift */
+  font-weight: bold;
+  margin-bottom: 30px;  /* Abstand nach unten */
 }
 
-#songListContainer {
-  margin-top: 20px;
+/* Label für die Anzahl der Songs */
+label {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.song-item {
-  background-color: gray;
+/* Das Eingabefeld für die Anzahl der Songs */
+input[type="number"] {
+  font-size: 18px;
   padding: 10px;
-  margin: 5px 0;
+  background-color: #333;
+  color: white;
+  border: 1px solid #444;
   border-radius: 5px;
-  cursor: move;
+  width: 60px;
+  margin-bottom: 20px;
 }
 
+/* Container für die Songs */
+#songListContainer {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Song-Elemente */
+.song-item {
+  background-color: #444;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+/* Dragging-Effekt */
 .song-item.dragging {
   opacity: 0.5;
+  background-color: #555;
+  border: 2px dashed #ff6347;
 }
 
+/* Eingabefeld für jeden Song */
 input {
   background-color: #333;
   color: white;
-  padding: 5px;
-  margin: 10px;
+  padding: 8px;
+  margin: 0 10px;
   border: 1px solid #444;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-size: 18px;
+  width: 50%;
+  max-width: 200px;
 }
+
+/* Wenn der Song verschoben wird */
+input:focus {
+  outline: none;
+}
+
